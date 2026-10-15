@@ -1,4 +1,15 @@
 services:
+  db:
+    image: postgres:16
+    environment:
+      POSTGRES_DB: ${DB_NAME}
+      POSTGRES_USER: ${DB_USER}
+      POSTGRES_PASSWORD: ${DB_PASSWORD}
+    ports:
+      - "5432:5432"
+    env_file:
+      - .env
+
   fastapi:
     build:
       context: .
@@ -7,3 +18,7 @@ services:
       - ./app:/app/app
     ports:
       - "80:80"
+    depends_on:
+      - db
+    env_file:
+      - .env
