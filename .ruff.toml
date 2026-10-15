@@ -1,0 +1,51 @@
+fix = true
+line-length = 79
+show-fixes = true
+target-version = "py314"
+
+[lint]
+select = [
+    "A",      # flake8-builtins
+    "ANN",    # flake8-annotations
+    "ASYNC",  # flake8-async
+    "ARG",    # flake8-unused-arguments
+    "B",      # flake8-bugbear
+    "C4",     # flake8-comprehensions
+    "C90",    # mccabe
+    "DJ",     # flake8-django
+    "E",      # pycodestyle
+    "ERA",    # eradicate
+    "F",      # Pyflakes
+    "N",      # pep8-naming
+    "I",      # reorder-python-imports / isort
+    "PIE",    # flake8-pie
+    "PL",     # Pylint
+    "RET",    # flake8-return
+    "RUF",    # RUF
+    "S",      # flake8-bandit
+    "T20",    # flake8-print
+    "UP",     # pyupgrade
+    "W"       # pycodestyle
+]
+ignore = [
+    "ANN401",
+    "PD",
+    "NPY",
+    "PLC0415",
+    "PLR091",
+    "RUF012",
+    "ARG002"
+]
+
+[lint.isort]
+combine-as-imports = true
+lines-after-imports = 1
+
+[lint.mccabe]
+max-complexity = 4
+
+[format]
+quote-style = "double"
+indent-style = "space"
+line-ending = "auto"
+skip-magic-trailing-comma = false
