@@ -2,6 +2,7 @@ fix = true
 line-length = 79
 show-fixes = true
 target-version = "py314"
+extend-exclude = ["test*"]
 
 [lint]
 select = [

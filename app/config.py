@@ -49,11 +49,25 @@ class ProductionConfig(BaseConfig):
     debug: bool = False
 
 
+class TestingConfig(BaseConfig):
+    DEBUG: bool = True
+
+    @property
+    def database_url_async(self) -> str:
+        return "sqlite+aiosqlite:///:memory:"
+
+    @property
+    def database_url_sync(self) -> str:
+        return "sqlite:///:memory:"
+
+
 def get_settings() -> BaseConfig:
     env_mode = os.getenv("ENV_MODE", "production").lower()
 
     if env_mode == "production":
         return ProductionConfig()
+    if env_mode == "testing":
+        return TestingConfig()
     return DevelopmentConfig()
 
 
