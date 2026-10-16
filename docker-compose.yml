@@ -9,16 +9,60 @@ services:
       - "5432:5432"
     env_file:
       - .env
+    healthcheck:
+      test: ["CMD-SHELL", "pg_isready -U ${DB_USER} -d ${DB_NAME}"]
+      interval: 3s
+      timeout: 3s
+      retries: 5
 
   fastapi:
     build:
       context: .
       dockerfile: Dockerfile
+    command: fastapi run app/main.py --port 80
     volumes:
       - ./app:/app/app
     ports:
       - "80:80"
     depends_on:
-      - db
+      db:
+        condition: service_healthy
     env_file:
       - .env
+
+  celery_worker:
+    build:
+      context: .
+      dockerfile: Dockerfile
+    command: celery -A app.tasks:celery_app worker --loglevel=info
+    volumes:
+      - ./app:/app/app
+    environment:
+      REDIS_URL: ${BROKER_URL}
+    depends_on:
+      db:
+        condition: service_healthy
+      redis:
+        condition: service_started
+    env_file:
+      - .env
+
+  celery_beat:
+    build:
+      context: .
+      dockerfile: Dockerfile
+    command: celery -A app.tasks:celery_app beat --loglevel=info
+    volumes:
+      - ./app:/app/app
+    environment:
+      REDIS_URL: ${BROKER_URL}
+    depends_on:
+      db:
+        condition: service_healthy
+      redis:
+        condition: service_started
+    env_file:
+      - .env
+
+  redis:
+    image: redis:alpine

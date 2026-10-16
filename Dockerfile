@@ -18,8 +18,4 @@ WORKDIR /app
 
 COPY --from=builder /app/.venv /app/.venv
 
-COPY ./app /app/app
-
 ENV PATH="/app/.venv/bin:$PATH"
-
-CMD ["fastapi", "run", "app/main.py", "--port", "80"]
