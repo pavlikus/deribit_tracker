@@ -25,6 +25,7 @@ DB_HOST=db
 DB_PORT=5432
 BROKER_URL=redis://redis:6379
 BACKEND_URL=redis://redis:6379
+TICKERS='["btc_usd", "eth_usd", "ton_usdc"]'
 ```
 
 ### 3. Initialization and Environment Boot
@@ -37,7 +38,7 @@ docker-compose up --build
 ### 4. Executing Automated Tests
 To assert the complete behavioral validity of the REST API layers, trigger the test framework directly within the isolated environment container:
 ```bash
-docker-compose exec fastapi pytest -v
+pytest -v
 ```
 
 ---
