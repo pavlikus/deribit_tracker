@@ -1,6 +1,5 @@
 import os
 from typing import Self
-from collections.abc import Iterable
 
 from pydantic_settings import BaseSettings, SettingsConfigDict
 
@@ -18,7 +17,7 @@ class BaseConfig(BaseSettings):
 
     # deribit.com config
     base_url: str = "https://deribit.com"
-    tickers: Iterable[str] = "btc_usd", "eth_usd"
+    tickers: list[str] = ["btc_usd", "eth_usd"]
     delay: float = 60
 
     # celery
